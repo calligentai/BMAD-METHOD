@@ -1,46 +1,27 @@
-# Dependencies
-node_modules/
-pnpm-lock.yaml
-bun.lock
-deno.lock
-pnpm-workspace.yaml
-package-lock.json
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# Build output
-build/*.txt
-web-bundles/
-
-# Environment variables
-.env
-
-# System files
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+# Virtual envs
+venv/
+.venv/
+sim_proj_venv/
+env/
+# Test & coverage
+.pytest_cache/
+.coverage
+coverage.xml
+# Build artifacts
+build/
+dist/
+*.egg-info/
+# Output dirs
+out_runs*/
+out_runs_test/
+# OS
 .DS_Store
-Thumbs.db
-
-# Development tools and configs
-.prettierignore
-.prettierrc
-
-# IDE and editor configs
-.windsurf/
-.trae/
-.bmad*/.cursor/
-
-# AI assistant files
-CLAUDE.md
-.ai/*
-.claude
-.gemini
-
-# Project-specific
-.bmad-core
-.bmad-creator-tools
-test-project-install/*
-sample-project/*
-flattened-codebase.xml
-*.stats.md
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
