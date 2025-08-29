@@ -1,0 +1,21 @@
+[project]
+name = "project-simulation"
+version = "0.1.0"
+description = "Simulation platform scaffold with BMAD integration"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pyyaml>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["."]

@@ -1,0 +1,3 @@
+# Example simulation configuration
+steps: 12
+step_delay_sec: 0.01
