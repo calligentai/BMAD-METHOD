@@ -7,10 +7,15 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "pyyaml>=6.0.0",
+  "rich>=13.7.0",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0.0"]
+dev = [
+  "pytest>=8.0.0",
+  "mypy>=1.10.0",
+  "ruff>=0.5.0",
+]
 
 [build-system]
 requires = ["setuptools>=68.0.0", "wheel"]
@@ -19,3 +24,21 @@ build-backend = "setuptools.build_meta"
 [tool.pytest.ini_options]
 addopts = "-q"
 pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+disallow_untyped_defs = false
+exclude = ["build/", "dist/", "sim_proj_venv/"]
