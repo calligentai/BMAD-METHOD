@@ -20,7 +20,7 @@ BMad-Method follows Test-Driven Development practices to ensure code quality and
 ### TDD Workflow
 
 1. **Write tests first** - Before implementing new features or fixing bugs, write tests that describe the expected behavior
-2. **Run tests** - Verify that new tests fail (red phase) 
+2. **Run tests** - Verify that new tests fail (red phase)
 3. **Implement minimal code** - Write just enough code to make tests pass (green phase)
 4. **Refactor** - Improve code quality while keeping tests green (refactor phase)
 5. **Repeat** - Continue the cycle for additional functionality
@@ -53,17 +53,18 @@ npm run test:coverage
 - Mock external dependencies when appropriate
 
 Example test structure:
+
 ```javascript
-describe('Module Name', () => {
-  test('should do something specific', () => {
+describe("Module Name", () => {
+  test("should do something specific", () => {
     // Arrange
-    const input = 'test input';
-    
+    const input = "test input";
+
     // Act
     const result = functionUnderTest(input);
-    
+
     // Assert
-    expect(result).toBe('expected output');
+    expect(result).toBe("expected output");
   });
 });
 ```

@@ -211,7 +211,7 @@ npm run test:coverage
 
 1. **Write tests first** - Before implementing features or fixing bugs
 2. **Run tests** - Verify they fail initially (red phase)
-3. **Implement code** - Write minimal code to pass tests (green phase)  
+3. **Implement code** - Write minimal code to pass tests (green phase)
 4. **Refactor** - Improve code while keeping tests green
 5. **Commit** - Tests run automatically in CI/CD
 

@@ -48,24 +48,24 @@ Use descriptive names that explain what is being tested:
 
 ```javascript
 // Good
-test('should validate all agent configurations successfully')
+test("should validate all agent configurations successfully");
 
-// Bad  
-test('validation test')
+// Bad
+test("validation test");
 ```
 
 ### Test Structure (AAA Pattern)
 
 ```javascript
-test('should parse CLI arguments correctly', () => {
+test("should parse CLI arguments correctly", () => {
   // Arrange
-  const args = ['node', 'cli.js', 'build', '--agents-only'];
-  
+  const args = ["node", "cli.js", "build", "--agents-only"];
+
   // Act
   const result = parseArgs(args);
-  
+
   // Assert
-  expect(result.command).toBe('build');
+  expect(result.command).toBe("build");
   expect(result.agentsOnly).toBe(true);
 });
 ```
@@ -75,14 +75,14 @@ test('should parse CLI arguments correctly', () => {
 Group related tests using `describe` blocks:
 
 ```javascript
-describe('CLI Module', () => {
-  describe('build command', () => {
-    test('should build agents when --agents-only flag is used', () => {
+describe("CLI Module", () => {
+  describe("build command", () => {
+    test("should build agents when --agents-only flag is used", () => {
       // Test implementation
     });
-    
-    test('should build teams when --teams-only flag is used', () => {
-      // Test implementation  
+
+    test("should build teams when --teams-only flag is used", () => {
+      // Test implementation
     });
   });
 });
@@ -115,7 +115,7 @@ npm run test:coverage
 ## Coverage Goals
 
 - **Functions**: 5% minimum (will increase over time)
-- **Lines**: 5% minimum (will increase over time)  
+- **Lines**: 5% minimum (will increase over time)
 - **Statements**: 5% minimum (will increase over time)
 
 Coverage thresholds start low and will be gradually increased as test coverage improves.
