@@ -1,0 +1,198 @@
+test_plan:
+  story_reference: "{story_number} - {story_title}"
+  created_date: "{current_date}"
+  tdd_phase: "RED" # RED/GREEN/REFACTOR
+  
+  # Test Strategy Overview
+  strategy:
+    approach: "Test-Driven Development (TDD)"
+    test_types:
+      - "Unit Tests"
+      - "Integration Tests"
+      - "End-to-End Tests"
+    coverage_target: "80%" # Minimum acceptable coverage
+    frameworks: 
+      - "{primary_test_framework}"
+      - "{additional_frameworks}"
+
+  # Acceptance Criteria Test Mapping
+  acceptance_criteria_tests:
+    - criterion: "{acceptance_criterion_1}"
+      test_scenarios:
+        - name: "Happy path test"
+          type: "unit"
+          description: "Test successful execution of main functionality"
+          priority: "high"
+        - name: "Edge case test"
+          type: "unit" 
+          description: "Test boundary conditions and edge cases"
+          priority: "medium"
+        - name: "Error handling test"
+          type: "unit"
+          description: "Test error conditions and exception handling"
+          priority: "high"
+    - criterion: "{acceptance_criterion_2}"
+      test_scenarios:
+        - name: "Integration test"
+          type: "integration"
+          description: "Test component interactions"
+          priority: "high"
+
+  # TDD Test Categories
+  tdd_test_categories:
+    unit_tests:
+      description: "Test individual functions, methods, and classes in isolation"
+      test_files:
+        - file: "tests/unit/{component_name}.test.{extension}"
+          description: "Tests for {component_name} component"
+          test_cases:
+            - "Should handle valid input correctly"
+            - "Should reject invalid input with appropriate error"
+            - "Should handle edge cases (null, empty, boundary values)"
+            - "Should maintain expected behavior under load"
+      
+    integration_tests:
+      description: "Test component interactions and data flow"
+      test_files:
+        - file: "tests/integration/{workflow_name}.test.{extension}"
+          description: "Tests for {workflow_name} integration"
+          test_cases:
+            - "Should integrate components successfully"
+            - "Should handle integration errors gracefully"
+            - "Should maintain data integrity across components"
+    
+    end_to_end_tests:
+      description: "Test complete user workflows and system behavior"
+      test_files:
+        - file: "tests/e2e/{user_workflow}.test.{extension}"
+          description: "End-to-end tests for {user_workflow}"
+          test_cases:
+            - "Should complete full user workflow successfully"
+            - "Should handle user errors appropriately"
+            - "Should provide proper user feedback"
+
+  # Test Implementation Plan
+  implementation_plan:
+    phase_1_red:
+      description: "Write failing tests that describe expected behavior"
+      tasks:
+        - "Create test file structure"
+        - "Write unit tests for core functionality (should fail)"
+        - "Write integration tests for component interactions (should fail)"
+        - "Verify all tests fail for the right reasons"
+        - "Review test quality and completeness"
+      
+    phase_2_green:
+      description: "Write minimal code to make tests pass"
+      tasks:
+        - "Implement minimal functionality to pass unit tests"
+        - "Implement component integration to pass integration tests"
+        - "Verify all tests now pass"
+        - "Ensure implementation is minimal and focused"
+      
+    phase_3_refactor:
+      description: "Improve code quality while maintaining test coverage"
+      tasks:
+        - "Refactor for better code organization"
+        - "Optimize performance while keeping tests green"
+        - "Improve code readability and maintainability"
+        - "Add additional tests if gaps are identified"
+
+  # Test Quality Standards
+  quality_standards:
+    test_naming:
+      convention: "describe_what_should_happen_when_condition"
+      examples:
+        - "should_return_user_data_when_valid_id_provided"
+        - "should_throw_error_when_invalid_input_received"
+    
+    test_structure:
+      pattern: "Arrange-Act-Assert (AAA)"
+      requirements:
+        - "Clear test setup (Arrange)"
+        - "Single action under test (Act)"
+        - "Explicit assertions (Assert)"
+        - "Proper cleanup if needed"
+    
+    coverage_requirements:
+      minimum_coverage: "80%"
+      critical_path_coverage: "100%"
+      edge_case_coverage: "Required"
+    
+    test_independence:
+      requirements:
+        - "Tests must not depend on execution order"
+        - "Tests must clean up after themselves"
+        - "Tests must not share mutable state"
+        - "Tests must be repeatable and deterministic"
+
+  # Test Environment Setup
+  environment:
+    test_data:
+      approach: "Test fixtures and factories"
+      location: "tests/fixtures/"
+      requirements:
+        - "Isolated test data for each test"
+        - "Realistic but minimal test data sets"
+        - "Easy to maintain and update"
+    
+    mocking_strategy:
+      external_dependencies: "Mock all external services"
+      database: "Use in-memory database or test database"
+      file_system: "Mock file operations or use temp directories"
+    
+    setup_teardown:
+      before_each: "Reset test environment to known state"
+      after_each: "Clean up test artifacts and data"
+      before_all: "Set up test environment and dependencies"
+      after_all: "Clean up shared test resources"
+
+  # Success Criteria
+  success_criteria:
+    tdd_compliance:
+      - "All tests written before implementation code"
+      - "Red-Green-Refactor cycle followed for all functionality"
+      - "No production code without corresponding failing test"
+    
+    coverage_metrics:
+      - "Minimum {coverage_target} overall test coverage"
+      - "100% coverage of critical business logic"
+      - "All acceptance criteria covered by tests"
+    
+    test_quality:
+      - "All tests are readable and maintainable"
+      - "Tests execute quickly (unit tests < 100ms each)"
+      - "Tests are reliable and not flaky"
+      - "Tests provide clear failure messages"
+
+  # Risk Assessment
+  testing_risks:
+    - risk: "Complex integration scenarios difficult to test"
+      mitigation: "Break down into smaller, testable units"
+    - risk: "External dependencies make tests unreliable"
+      mitigation: "Use mocking and test doubles"
+    - risk: "Test suite becomes slow as it grows"
+      mitigation: "Optimize test performance and use test categories"
+
+  # Maintenance Plan
+  maintenance:
+    test_review_frequency: "With each code review"
+    test_update_triggers:
+      - "Requirements changes"
+      - "Bug discoveries"
+      - "Performance issues"
+      - "New edge cases identified"
+    
+    test_cleanup_schedule:
+      - "Remove obsolete tests monthly"
+      - "Refactor test code quarterly"
+      - "Update test documentation as needed"
+
+# Template Usage Instructions:
+# 1. Replace all {placeholder} values with actual story-specific information
+# 2. Customize test_types based on your technology stack
+# 3. Adjust coverage_target based on project requirements
+# 4. Modify frameworks list to match your testing setup
+# 5. Add or remove test categories based on story complexity
+# 6. Ensure test file paths match your project structure
+# 7. Update quality standards to match team conventions
