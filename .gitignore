@@ -38,6 +38,17 @@ CLAUDE.md
 .claude
 .gemini
 
+# Testing
+__tests__/
+tests/
+test/
+*.test.js
+*.spec.js
+coverage/
+junit.xml
+test-results.xml
+.jest/
+
 # Project-specific
 .bmad-core
 .bmad-creator-tools

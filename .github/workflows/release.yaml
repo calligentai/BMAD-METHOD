@@ -39,6 +39,7 @@ jobs:
         run: npm ci
       - name: Run tests and validation
         run: |
+          npm test
           npm run validate
           npm run format
       - name: Debug permissions

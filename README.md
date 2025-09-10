@@ -190,6 +190,33 @@ The generated XML file contains your project's text-based source files in a stru
 </files>
 ```
 
+## Testing & Development
+
+BMad-Method uses Test-Driven Development (TDD) to ensure code quality and reliability.
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode during development
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+### Development Workflow
+
+1. **Write tests first** - Before implementing features or fixing bugs
+2. **Run tests** - Verify they fail initially (red phase)
+3. **Implement code** - Write minimal code to pass tests (green phase)  
+4. **Refactor** - Improve code while keeping tests green
+5. **Commit** - Tests run automatically in CI/CD
+
+For detailed testing guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md#test-driven-development-tdd).
+
 ## Documentation & Resources
 
 ### Essential Guides
