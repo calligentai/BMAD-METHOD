@@ -13,6 +13,69 @@ Also note, we use the discussions feature in GitHub to have a community to discu
 - **#general-dev** - Technical discussions, feature ideas, and development questions
 - **#bugs-issues** - Bug reports and issue discussions
 
+## Test-Driven Development (TDD)
+
+BMad-Method follows Test-Driven Development practices to ensure code quality and reliability.
+
+### TDD Workflow
+
+1. **Write tests first** - Before implementing new features or fixing bugs, write tests that describe the expected behavior
+2. **Run tests** - Verify that new tests fail (red phase)
+3. **Implement minimal code** - Write just enough code to make tests pass (green phase)
+4. **Refactor** - Improve code quality while keeping tests green (refactor phase)
+5. **Repeat** - Continue the cycle for additional functionality
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode (for development)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Test Structure
+
+- **Unit tests**: Test individual functions and modules (`__tests__/tools/`)
+- **Integration tests**: Test complete workflows (`__tests__/integration/`)
+- **Test files**: Use `.test.js` or `.spec.js` extensions
+
+### Writing Tests
+
+- Follow existing test patterns in the `__tests__/` directory
+- Use descriptive test names that explain the expected behavior
+- Group related tests using `describe()` blocks
+- Keep tests focused and atomic
+- Mock external dependencies when appropriate
+
+Example test structure:
+
+```javascript
+describe("Module Name", () => {
+  test("should do something specific", () => {
+    // Arrange
+    const input = "test input";
+
+    // Act
+    const result = functionUnderTest(input);
+
+    // Assert
+    expect(result).toBe("expected output");
+  });
+});
+```
+
+### Test Requirements for PRs
+
+- All new features must include tests
+- Bug fixes must include regression tests
+- Tests must pass before PR can be merged
+- Aim to maintain or improve code coverage
+
 ## Code of Conduct
 
 By participating in this project, you agree to abide by our Code of Conduct. Please read it before participating.
@@ -52,8 +115,10 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 
 Please only propose small granular commits! If its large or significant, please discuss in the discussions tab and open up an issue first. I do not want you to waste your time on a potentially very large PR to have it rejected because it is not aligned or deviates from other planned changes. Communicate and lets work together to build and improve this great community project!
 
-**Important**: All contributions must align with our [Guiding Principles](docs/GUIDING-PRINCIPLES.md). Key points:
+**Important**: All contributions must align with our [Guiding Principles](docs/GUIDING-PRINCIPLES.md) and follow TDD practices. Key points:
 
+- **Write tests before implementation** - Follow TDD red-green-refactor cycle
+- All new features and bug fixes must include tests
 - Keep dev agents lean - they need context for coding, not documentation
 - Web/planning agents can be larger with more complex tasks
 - Everything is natural language (markdown) - no code in core framework
