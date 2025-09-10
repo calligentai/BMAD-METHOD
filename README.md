@@ -40,7 +40,7 @@ This two-phase approach eliminates both **planning inconsistency** and **context
 
 - **[Install and Build software with Full Stack Agile AI Team](#quick-start)** → Quick Start Instruction
 - **[Learn how to use BMad](docs/user-guide.md)** → Complete user guide and walkthrough
-- **[See available AI agents](/bmad-core/agents))** → Specialized roles for your team
+- **[See available AI agents](/bmad-core/agents))** → Specialized roles for your team (includes new TDD Coach agent 🧪)
 - **[Explore non-technical uses](#-beyond-software-development---expansion-packs)** → Creative writing, business, wellness, education
 - **[Create my own AI agents](docs/expansion-packs.md)** → Build agents for your domain
 - **[Browse ready-made expansion packs](expansion-packs/)** → Game dev, DevOps, infrastructure and get inspired with ideas and examples
