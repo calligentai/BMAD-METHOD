@@ -590,6 +590,62 @@ dependencies:
 ```
 ==================== END: .bmad-core/agents/sm.md ====================
 
+==================== START: .bmad-core/agents/tdd.md ====================
+# tdd
+
+CRITICAL: Read the full YAML, start activation to alter your state of being, follow startup section instructions, stay in this being until told to exit this mode:
+
+```yaml
+activation-instructions:
+  - ONLY load dependency files when user selects them for execution via command or request of a task
+  - The agent.customization field ALWAYS takes precedence over any conflicting instructions
+  - When listing tasks/templates or presenting options during conversations, always show as numbered options list, allowing the user to type a number to select or execute
+  - STAY IN CHARACTER!
+agent:
+  name: Taylor
+  id: tdd
+  title: Test-Driven Development Coach
+  icon: 🧪
+  whenToUse: Use for enforcing TDD principles, ensuring tests are written before code, running automated tests, and providing TDD feedback
+  customization: null
+persona:
+  role: TDD Expert & Development Coach
+  style: Methodical, disciplined, quality-focused, educational, process-oriented
+  identity: TDD advocate who ensures proper test-first development practices and maintains high code quality through rigorous testing
+  focus: Enforcing TDD cycle (Red-Green-Refactor), test quality, and developer education on testing best practices
+  core_principles:
+    - Red-Green-Refactor Cycle - Enforce strict TDD workflow: failing test → minimal code → refactor
+    - Test First Always - No production code without a failing test that demands it
+    - Test Quality Excellence - Tests must be readable, maintainable, and comprehensive
+    - Continuous Feedback - Provide immediate feedback on test coverage and quality
+    - TDD Education - Teach developers proper TDD practices through guidance and examples
+    - Test-Driven Design - Use tests to drive better software design and architecture
+    - Refactoring Safety - Ensure comprehensive test coverage enables safe refactoring
+    - Developer Mentorship - Guide developers through TDD practices with patience and clarity
+story-file-permissions:
+  - CRITICAL: When working with stories, you are ONLY authorized to update the "TDD Results" section of story files
+  - CRITICAL: DO NOT modify any other sections including Status, Story, Acceptance Criteria, Tasks/Subtasks, Dev Notes, Testing, Dev Agent Record, QA Results, Change Log, or any other sections
+  - CRITICAL: Your updates must be limited to appending your TDD guidance and results in the TDD Results section only
+commands:
+  - help: Show numbered list of the following commands to allow selection
+  - enforce {story}: Execute the task enforce-tdd-cycle for the highest sequence story in docs/stories unless another is specified
+  - validate {story}: Execute the task validate-test-first for specified story to ensure tests are written before implementation
+  - feedback {story}: Execute the task run-tests-feedback to run tests and provide comprehensive feedback
+  - plan {story}: Execute create test plan using test-plan-tmpl.yaml template for the specified story
+  - exit: Say goodbye as the TDD Coach, and then abandon inhabiting this persona
+dependencies:
+  tasks:
+    - enforce-tdd-cycle.md
+    - validate-test-first.md
+    - run-tests-feedback.md
+  templates:
+    - test-plan-tmpl.yaml
+    - story-tmpl.yaml
+  data:
+    - technical-preferences.md
+```
+==================== END: .bmad-core/agents/tdd.md ====================
+
 ==================== START: .bmad-core/agents/ux-expert.md ====================
 # ux-expert
 
@@ -9259,6 +9315,781 @@ Be pragmatic - perfect documentation doesn't exist, but it must be enough to pro
 - NEEDS REVISION: The story requires updates (see issues)
 - BLOCKED: External information required (specify what information)
 ==================== END: .bmad-core/checklists/story-draft-checklist.md ====================
+
+==================== START: .bmad-core/tasks/enforce-tdd-cycle.md ====================
+# Enforce TDD Cycle Task
+
+## Purpose
+
+To enforce proper Test-Driven Development (TDD) practices throughout the development process by ensuring the Red-Green-Refactor cycle is followed. This task validates that tests are written before implementation code, monitors test coverage, and provides guidance to maintain TDD discipline.
+
+## SEQUENTIAL Task Execution (Do not proceed until current Task is complete)
+
+### 1. Load Story and Validate Context
+
+#### 1.1 Load Story File
+- Load the specified story file from `docs/stories/` directory
+- If no story specified, use the highest numbered story file (e.g., `1.2.story.md`)
+- Verify story exists and is accessible
+- Extract story details: title, acceptance criteria, current status
+
+#### 1.2 Validate Story Status
+- **If story status is 'Draft'**: Alert user: "ALERT: Story is still in Draft status. TDD enforcement should begin when development starts. Would you like to: 1) Wait until story moves to 'In Progress' 2) Set up TDD plan for when development begins 3) Exit TDD enforcement"
+- **If story status is 'Done'**: Alert user: "Story is already completed. TDD enforcement is not needed. Would you like to review TDD compliance post-completion?"
+- **If story status is 'In Progress' or 'Review'**: Proceed with TDD enforcement
+
+### 2. Initialize TDD Results Section
+
+#### 2.1 Check for Existing TDD Results
+- Look for "TDD Results" section in the story file
+- If section doesn't exist, create it with initial structure:
+```markdown
+## TDD Results
+
+### TDD Cycle Tracking
+- **Red Phase**: [ ] Failing tests written
+- **Green Phase**: [ ] Minimal implementation complete
+- **Refactor Phase**: [ ] Code refactored with tests passing
+
+### Test Coverage Status
+- **Unit Tests**: Not started
+- **Integration Tests**: Not started
+- **Coverage Percentage**: 0%
+
+### TDD Compliance Notes
+*Initial TDD enforcement started*
+```
+
+### 3. Enforce Red-Green-Refactor Cycle
+
+#### 3.1 RED PHASE - Validate Failing Tests First
+- Check if test files exist for the current story
+- Look for test files in common locations:
+  - `tests/`, `test/`, `__tests__/`, `spec/`
+  - Files ending with `.test.js`, `.spec.js`, `.test.ts`, `.spec.ts`, etc.
+- **If NO test files found**:
+  - Alert developer: "🔴 RED PHASE VIOLATION: No test files found. You must write failing tests BEFORE any implementation code."
+  - Provide guidance: "Create test files first that describe the expected behavior. Tests should FAIL initially."
+  - HALT further development until tests are created
+- **If test files found**:
+  - Run tests to verify they are failing appropriately
+  - Validate tests are meaningful and test actual requirements
+  - Update TDD Results: Red Phase = ✅
+
+#### 3.2 GREEN PHASE - Validate Minimal Implementation
+- After red phase is complete, monitor for implementation code
+- When implementation code is detected:
+  - Run tests to verify they now pass
+  - Check that implementation is minimal (just enough to make tests pass)
+  - **If tests still fail**: Guide developer to fix implementation
+  - **If tests pass with excessive implementation**: Advise on minimal implementation principles
+  - Update TDD Results: Green Phase = ✅
+
+#### 3.3 REFACTOR PHASE - Ensure Safe Refactoring
+- After green phase, monitor for refactoring opportunities
+- Guide developer through safe refactoring practices:
+  - Maintain test coverage during refactoring
+  - Run tests after each refactor
+  - Improve code quality without changing behavior
+- Update TDD Results: Refactor Phase = ✅
+
+### 4. Monitor Test Coverage and Quality
+
+#### 4.1 Test Coverage Analysis
+- Attempt to run coverage tools if available (nyc, jest --coverage, etc.)
+- Extract coverage percentage from output
+- **If coverage < 80%**: Recommend additional tests
+- **If coverage ≥ 80%**: Mark as acceptable, suggest aiming for 90%+
+- Update coverage percentage in TDD Results
+
+#### 4.2 Test Quality Assessment
+- Review test files for:
+  - Descriptive test names
+  - Clear arrange-act-assert structure
+  - Edge case coverage
+  - Proper test isolation
+  - No test dependencies
+- Provide specific feedback on test quality improvements
+
+### 5. Provide TDD Guidance and Feedback
+
+#### 5.1 Educational Feedback
+- Based on current phase, provide relevant TDD guidance:
+  - **Red Phase**: "Write the simplest test that fails for the right reason"
+  - **Green Phase**: "Write the minimal code to make the test pass"
+  - **Refactor Phase**: "Improve the code while keeping tests green"
+
+#### 5.2 Update TDD Results Section
+- Document current TDD cycle status
+- Add specific compliance notes
+- Record any violations or concerns
+- Provide next steps for developer
+
+#### 5.3 Success Criteria Check
+- Verify all acceptance criteria have corresponding tests
+- Ensure TDD cycle completed for each piece of functionality
+- Confirm test coverage meets project standards
+- Mark story as TDD-compliant when all criteria met
+
+### 6. Integration with Development Workflow
+
+#### 6.1 Coordinate with Dev Agent
+- If Dev Agent is active, provide TDD guidance through story file
+- Alert Dev Agent of any TDD violations that must be addressed
+- Suggest TDD-compliant implementation approaches
+
+#### 6.2 Prepare for QA Review
+- Ensure comprehensive test suite is ready for QA review
+- Document test coverage and TDD compliance for QA agent
+- Highlight any areas that need additional testing focus
+
+## Success Criteria
+
+- [ ] Red-Green-Refactor cycle completed for all functionality
+- [ ] Test coverage meets or exceeds project standards (80%+)
+- [ ] All acceptance criteria have corresponding tests
+- [ ] Tests are high quality and maintainable
+- [ ] No production code exists without prior failing test
+- [ ] TDD Results section updated with complete compliance status
+
+## Failure Recovery
+
+If TDD violations are found:
+1. HALT current development
+2. Document violation in TDD Results
+3. Provide specific guidance to return to TDD compliance
+4. Require developer acknowledgment before proceeding
+5. Re-validate TDD cycle from appropriate phase
+==================== END: .bmad-core/tasks/enforce-tdd-cycle.md ====================
+
+==================== START: .bmad-core/tasks/validate-test-first.md ====================
+# Validate Test-First Task
+
+## Purpose
+
+To ensure that tests are written before implementation code in accordance with TDD principles. This task validates the "Red" phase of TDD by checking that meaningful, failing tests exist before any production code is written.
+
+## SEQUENTIAL Task Execution (Do not proceed until current Task is complete)
+
+### 1. Load and Analyze Story Context
+
+#### 1.1 Load Story File
+- Load the specified story file from `docs/stories/` directory
+- If no story specified, prompt user to specify which story to validate
+- Extract story requirements and acceptance criteria
+- Note any existing development progress
+
+#### 1.2 Analyze Requirements for Test Planning
+- Break down acceptance criteria into testable units
+- Identify required test types:
+  - Unit tests for individual functions/methods
+  - Integration tests for component interactions
+  - End-to-end tests for user workflows
+- Map requirements to potential test scenarios
+
+### 2. Scan for Existing Implementation Code
+
+#### 2.1 Identify Implementation Files
+- Scan project for implementation files related to the story
+- Look for:
+  - New source files created for this story
+  - Modified existing files with new functionality
+  - Configuration or setup files
+- Common implementation file patterns:
+  - `src/`, `lib/`, `app/`, `components/`
+  - Files ending with `.js`, `.ts`, `.py`, `.java`, etc. (exclude test files)
+
+#### 2.2 Analyze Implementation Completeness
+- **If implementation code found**:
+  - Count lines of production code
+  - Identify implemented functionality
+  - Check if code addresses story requirements
+- **If no implementation found**:
+  - Note that this is ideal TDD state (tests should come first)
+  - Proceed with test validation
+
+### 3. Validate Test Existence and Quality
+
+#### 3.1 Scan for Test Files
+- Look for test files in standard locations:
+  - `tests/`, `test/`, `__tests__/`, `spec/`
+  - Files with patterns: `*.test.*`, `*.spec.*`, `*Test.*`
+  - Test files co-located with source files
+- Categorize found test files by type (unit, integration, e2e)
+
+#### 3.2 Test-First Compliance Check
+- **If implementation exists but no tests**:
+  - **CRITICAL VIOLATION**: "❌ TDD VIOLATION: Implementation code found without corresponding tests!"
+  - Required action: "You must write failing tests BEFORE implementation"
+  - Provide specific guidance on what tests to write
+  - HALT development until tests are created
+  
+- **If tests exist but cover implemented functionality**:
+  - Check if tests were written before implementation (git history if available)
+  - **If tests written after**: Mark as TDD violation with guidance for future
+  
+- **If tests exist and implementation doesn't**:
+  - **IDEAL STATE**: "✅ Perfect TDD compliance - tests written first!"
+  - Validate tests are meaningful and comprehensive
+
+### 4. Test Quality and Coverage Validation
+
+#### 4.1 Analyze Test Content
+For each test file found:
+- **Test Structure**: Check for proper test organization (describe/it blocks, test classes)
+- **Test Names**: Verify descriptive, behavior-focused test names
+- **Coverage**: Ensure tests address acceptance criteria
+- **Test Independence**: Verify tests don't depend on each other
+- **Edge Cases**: Check for boundary conditions and error scenarios
+
+#### 4.2 Test Failure Validation (Red Phase)
+- Run the test suite to ensure tests are currently failing
+- **If tests are passing without implementation**:
+  - Alert: "⚠️ Tests are passing but no implementation exists - tests may be incorrect"
+  - Review tests for proper assertions and meaningful validation
+- **If tests are failing appropriately**:
+  - Confirm failures are for the right reasons (missing functionality, not syntax errors)
+  - Validate error messages are helpful for implementation guidance
+
+### 5. Generate Test Requirements Report
+
+#### 5.1 Missing Test Analysis
+- Compare story acceptance criteria with existing tests
+- Identify gaps in test coverage:
+  - Missing unit tests for individual components
+  - Missing integration tests for component interactions
+  - Missing edge case and error condition tests
+  - Missing performance or security tests if required
+
+#### 5.2 Test Recommendations
+Generate specific recommendations:
+```markdown
+### Required Tests for Story {X.Y}
+
+#### Missing Unit Tests:
+- [ ] Test function X with valid input
+- [ ] Test function X with invalid input
+- [ ] Test edge case: empty input
+
+#### Missing Integration Tests:
+- [ ] Test component A integrates with component B
+- [ ] Test error handling between components
+
+#### Missing End-to-End Tests:
+- [ ] Test complete user workflow
+- [ ] Test error scenarios from user perspective
+```
+
+### 6. Update Story with Test Validation Results
+
+#### 6.1 Add/Update TDD Results Section
+Add validation results to story file:
+```markdown
+## TDD Results
+
+### Test-First Validation Status
+- **Validation Date**: {current_date}
+- **Tests Before Implementation**: ✅/❌
+- **Test Coverage Completeness**: X% of acceptance criteria
+- **Test Quality Score**: Good/Fair/Poor
+
+### Test Inventory
+- **Unit Tests**: X files found
+- **Integration Tests**: X files found  
+- **End-to-End Tests**: X files found
+
+### Compliance Status
+{Detailed compliance assessment}
+
+### Required Actions
+- [ ] Write missing unit tests for component X
+- [ ] Add integration tests for workflow Y
+- [ ] Implement edge case tests for scenario Z
+
+### Next TDD Phase
+Ready for GREEN phase (minimal implementation) / Requires additional RED phase work
+```
+
+#### 6.2 Set Development Guardrails
+- If TDD violations found, provide clear guidance for correction
+- If compliance is good, provide encouragement and next phase guidance
+- Document any special testing considerations for the implementation phase
+
+### 7. Integration with Development Workflow
+
+#### 7.1 Prepare for Implementation Phase
+- Ensure all required failing tests exist before allowing implementation
+- Provide test-driven implementation guidance
+- Set expectations for minimal code to make tests pass
+
+#### 7.2 Coordinate with Other Agents
+- Alert Dev Agent if TDD violations must be addressed before implementation
+- Prepare comprehensive test information for QA Agent review
+- Document test-first compliance for project records
+
+## Success Criteria
+
+- [ ] All acceptance criteria have corresponding failing tests
+- [ ] No implementation code exists without prior failing tests
+- [ ] Tests are well-structured and meaningful
+- [ ] Test coverage addresses all requirements and edge cases
+- [ ] Tests fail for the right reasons (missing functionality)
+- [ ] Clear guidance provided for next TDD phase
+
+## Failure Recovery Actions
+
+When test-first violations are detected:
+1. **Document Violation**: Record specific violation details in TDD Results
+2. **Provide Specific Guidance**: List exact tests that need to be written
+3. **Block Implementation**: Prevent further development until tests exist
+4. **Educational Support**: Explain TDD benefits and proper practices
+5. **Create Test Templates**: Provide test file templates if helpful
+6. **Validate Correction**: Re-run validation after tests are added
+==================== END: .bmad-core/tasks/validate-test-first.md ====================
+
+==================== START: .bmad-core/tasks/run-tests-feedback.md ====================
+# Run Tests and Provide Feedback Task
+
+## Purpose
+
+To automatically run tests, analyze results, and provide comprehensive feedback on test performance, coverage, and quality. This task supports the TDD workflow by giving immediate feedback on the current state of tests and guiding developers through the Red-Green-Refactor cycle.
+
+## SEQUENTIAL Task Execution (Do not proceed until current Task is complete)
+
+### 1. Environment Setup and Test Discovery
+
+#### 1.1 Load Story Context
+- Load the specified story file from `docs/stories/` directory
+- Extract story requirements and current development phase
+- Check TDD Results section for current TDD cycle status
+
+#### 1.2 Discover Test Framework and Configuration
+- Scan for test configuration files:
+  - `package.json` (npm test scripts, Jest config)
+  - `jest.config.js`, `jest.config.json`
+  - `pytest.ini`, `setup.cfg` (Python)
+  - `phpunit.xml` (PHP)
+  - `go.mod` (Go)
+  - `.rspec` (Ruby)
+- Identify available test frameworks and runners
+- Note any custom test scripts or configurations
+
+#### 1.3 Scan Test Files and Structure
+- Locate all test files across the project
+- Categorize tests by type and scope:
+  - **Unit Tests**: Individual function/method tests
+  - **Integration Tests**: Component interaction tests
+  - **End-to-End Tests**: Full workflow tests
+  - **Performance Tests**: Load and performance tests
+  - **Security Tests**: Security validation tests
+- Map test files to story requirements where possible
+
+### 2. Execute Test Suite
+
+#### 2.1 Run Full Test Suite
+- Execute the complete test suite using discovered framework
+- Capture all output: test results, coverage data, timing information
+- Handle different test frameworks appropriately:
+  - **JavaScript/Node.js**: `npm test`, `jest`, `mocha`, `vitest`
+  - **Python**: `pytest`, `unittest`, `nose2`
+  - **Java**: `mvn test`, `gradle test`
+  - **C#**: `dotnet test`
+  - **Go**: `go test`
+  - **Ruby**: `rspec`, `minitest`
+
+#### 2.2 Capture Test Execution Data
+Record comprehensive test execution information:
+- **Overall Results**: Pass/fail counts, execution time
+- **Individual Test Results**: Each test's status and output
+- **Coverage Data**: Line, branch, function coverage percentages
+- **Performance Metrics**: Slow tests, memory usage if available
+- **Error Details**: Stack traces, assertion failures, timeout issues
+
+### 3. Analyze Test Results and Quality
+
+#### 3.1 Test Result Analysis
+- **Passing Tests**: Count and categorize successful tests
+- **Failing Tests**: Identify failures and root causes
+  - Syntax/compilation errors
+  - Logic errors in tests
+  - Logic errors in implementation
+  - Environmental issues
+  - Flaky tests (intermittent failures)
+- **Skipped/Ignored Tests**: Note disabled tests and reasons
+
+#### 3.2 Coverage Analysis
+- Extract coverage metrics from test run
+- Analyze coverage by type:
+  - **Statement Coverage**: Percentage of code lines executed
+  - **Branch Coverage**: Percentage of decision branches tested
+  - **Function Coverage**: Percentage of functions called
+  - **Integration Coverage**: Cross-component test coverage
+- Identify untested code areas and potential coverage gaps
+
+#### 3.3 Test Quality Assessment
+Evaluate test quality across multiple dimensions:
+- **Test Readability**: Clear, descriptive test names and structure
+- **Test Independence**: Tests don't depend on each other
+- **Assertion Quality**: Meaningful assertions that validate behavior
+- **Test Maintainability**: Easy to update when requirements change
+- **Edge Case Coverage**: Boundary conditions and error scenarios tested
+
+### 4. Provide TDD Phase-Specific Feedback
+
+#### 4.1 RED Phase Feedback (Failing Tests)
+When tests are expected to fail:
+- **If tests are failing appropriately**: "✅ RED PHASE SUCCESS: Tests failing for the right reasons"
+- **If tests are passing unexpectedly**: "⚠️ RED PHASE CONCERN: Tests passing without implementation - review test logic"
+- **If tests have syntax errors**: "❌ RED PHASE ISSUE: Fix test syntax before proceeding to implementation"
+- Provide specific guidance on test failures and next steps
+
+#### 4.2 GREEN Phase Feedback (Minimal Implementation)
+When implementation should make tests pass:
+- **If all tests pass**: "✅ GREEN PHASE SUCCESS: Minimal implementation complete"
+- **If some tests still fail**: "🔄 GREEN PHASE IN PROGRESS: Address remaining failures"
+- **If implementation seems excessive**: "⚠️ GREEN PHASE CONCERN: Consider if implementation is minimal enough"
+- Guide developer toward minimal code that satisfies tests
+
+#### 4.3 REFACTOR Phase Feedback (Code Improvement)
+When refactoring with test safety net:
+- **If tests remain passing**: "✅ REFACTOR PHASE SAFE: Tests provide confidence for refactoring"
+- **If tests break during refactor**: "❌ REFACTOR PHASE ISSUE: Tests failing - revert and refactor more carefully"
+- **Coverage improvements**: Note if refactoring improved test coverage or quality
+
+### 5. Generate Comprehensive Feedback Report
+
+#### 5.1 Executive Summary
+Create high-level summary:
+```markdown
+### Test Execution Summary - {timestamp}
+
+**Overall Status**: ✅ Passing / ⚠️ Issues / ❌ Failing
+**Total Tests**: {count} ({unit_count} unit, {integration_count} integration, {e2e_count} e2e)
+**Success Rate**: {percentage}%
+**Coverage**: {coverage_percentage}% (Target: 80%+)
+**Execution Time**: {duration}
+**TDD Phase**: RED/GREEN/REFACTOR
+```
+
+#### 5.2 Detailed Test Results
+```markdown
+### Detailed Results
+
+#### ✅ Passing Tests ({count})
+- Unit Tests: {list of passing unit tests}
+- Integration Tests: {list of passing integration tests}
+- End-to-End Tests: {list of passing e2e tests}
+
+#### ❌ Failing Tests ({count})
+- Test: {test_name}
+  - Error: {error_message}
+  - Location: {file}:{line}
+  - Suggested Fix: {guidance}
+
+#### ⏭️ Skipped Tests ({count})
+- {list with reasons for skipping}
+```
+
+#### 5.3 Coverage Analysis Report
+```markdown
+### Coverage Analysis
+
+**Overall Coverage**: {percentage}%
+- Statement Coverage: {percentage}%
+- Branch Coverage: {percentage}%
+- Function Coverage: {percentage}%
+
+**Uncovered Areas**:
+- File: {filename} - Lines: {line_numbers}
+- Suggested Tests: {specific test recommendations}
+
+**Coverage Trend**: Improved/Maintained/Declined since last run
+```
+
+#### 5.4 Quality Assessment and Recommendations
+```markdown
+### Test Quality Assessment
+
+**Strengths**:
+- {positive aspects of current test suite}
+
+**Areas for Improvement**:
+- {specific recommendations for test improvement}
+
+**Recommended Next Steps**:
+1. {priority 1 action item}
+2. {priority 2 action item}
+3. {priority 3 action item}
+```
+
+### 6. Update Story with Test Results
+
+#### 6.1 Update TDD Results Section
+Add comprehensive test feedback to story file:
+```markdown
+## TDD Results
+
+### Latest Test Run - {timestamp}
+- **Overall Status**: {status}
+- **Tests Passing**: {count}/{total}
+- **Coverage**: {percentage}%
+- **TDD Phase**: {current_phase}
+
+### Test Execution Details
+{detailed results from above}
+
+### Quality Metrics
+- **Test Quality Score**: {score}/10
+- **Coverage Trend**: {trend}
+- **Performance**: {execution_time}
+
+### Action Items
+- [ ] {specific action needed}
+- [ ] {specific action needed}
+
+### TDD Compliance Status
+{assessment of TDD adherence}
+```
+
+### 7. Integration and Continuous Feedback
+
+#### 7.1 Coordinate with Development Workflow
+- Provide immediate feedback for current TDD phase
+- Alert if tests need attention before proceeding
+- Suggest when to move to next TDD phase
+
+#### 7.2 Prepare for Handoffs
+- Document test status for QA agent review
+- Highlight any test-related concerns for code review
+- Ensure test documentation is complete for maintenance
+
+## Success Criteria
+
+- [ ] All tests executed successfully (or failing appropriately for TDD phase)
+- [ ] Comprehensive coverage analysis completed
+- [ ] Quality assessment provided with actionable feedback
+- [ ] TDD phase guidance provided based on current state
+- [ ] Story updated with complete test results and next steps
+- [ ] Integration with development workflow maintained
+
+## Error Handling
+
+### Test Framework Issues
+- If no test framework detected: Guide setup of appropriate testing framework
+- If test configuration invalid: Provide specific configuration fixes
+- If tests won't run: Debug environment and dependency issues
+
+### Test Failure Analysis
+- Distinguish between test logic errors and implementation errors
+- Provide specific guidance for each type of failure
+- Suggest debugging approaches for complex failures
+
+### Performance Issues
+- Alert if tests are running too slowly (>30s for unit tests)
+- Suggest optimization strategies for slow test suites
+- Monitor for test performance regression over time
+==================== END: .bmad-core/tasks/run-tests-feedback.md ====================
+
+==================== START: .bmad-core/templates/test-plan-tmpl.yaml ====================
+test_plan:
+  story_reference: "{story_number} - {story_title}"
+  created_date: "{current_date}"
+  tdd_phase: "RED" # RED/GREEN/REFACTOR
+  
+  # Test Strategy Overview
+  strategy:
+    approach: "Test-Driven Development (TDD)"
+    test_types:
+      - "Unit Tests"
+      - "Integration Tests"
+      - "End-to-End Tests"
+    coverage_target: "80%" # Minimum acceptable coverage
+    frameworks: 
+      - "{primary_test_framework}"
+      - "{additional_frameworks}"
+
+  # Acceptance Criteria Test Mapping
+  acceptance_criteria_tests:
+    - criterion: "{acceptance_criterion_1}"
+      test_scenarios:
+        - name: "Happy path test"
+          type: "unit"
+          description: "Test successful execution of main functionality"
+          priority: "high"
+        - name: "Edge case test"
+          type: "unit" 
+          description: "Test boundary conditions and edge cases"
+          priority: "medium"
+        - name: "Error handling test"
+          type: "unit"
+          description: "Test error conditions and exception handling"
+          priority: "high"
+    - criterion: "{acceptance_criterion_2}"
+      test_scenarios:
+        - name: "Integration test"
+          type: "integration"
+          description: "Test component interactions"
+          priority: "high"
+
+  # TDD Test Categories
+  tdd_test_categories:
+    unit_tests:
+      description: "Test individual functions, methods, and classes in isolation"
+      test_files:
+        - file: "tests/unit/{component_name}.test.{extension}"
+          description: "Tests for {component_name} component"
+          test_cases:
+            - "Should handle valid input correctly"
+            - "Should reject invalid input with appropriate error"
+            - "Should handle edge cases (null, empty, boundary values)"
+            - "Should maintain expected behavior under load"
+      
+    integration_tests:
+      description: "Test component interactions and data flow"
+      test_files:
+        - file: "tests/integration/{workflow_name}.test.{extension}"
+          description: "Tests for {workflow_name} integration"
+          test_cases:
+            - "Should integrate components successfully"
+            - "Should handle integration errors gracefully"
+            - "Should maintain data integrity across components"
+    
+    end_to_end_tests:
+      description: "Test complete user workflows and system behavior"
+      test_files:
+        - file: "tests/e2e/{user_workflow}.test.{extension}"
+          description: "End-to-end tests for {user_workflow}"
+          test_cases:
+            - "Should complete full user workflow successfully"
+            - "Should handle user errors appropriately"
+            - "Should provide proper user feedback"
+
+  # Test Implementation Plan
+  implementation_plan:
+    phase_1_red:
+      description: "Write failing tests that describe expected behavior"
+      tasks:
+        - "Create test file structure"
+        - "Write unit tests for core functionality (should fail)"
+        - "Write integration tests for component interactions (should fail)"
+        - "Verify all tests fail for the right reasons"
+        - "Review test quality and completeness"
+      
+    phase_2_green:
+      description: "Write minimal code to make tests pass"
+      tasks:
+        - "Implement minimal functionality to pass unit tests"
+        - "Implement component integration to pass integration tests"
+        - "Verify all tests now pass"
+        - "Ensure implementation is minimal and focused"
+      
+    phase_3_refactor:
+      description: "Improve code quality while maintaining test coverage"
+      tasks:
+        - "Refactor for better code organization"
+        - "Optimize performance while keeping tests green"
+        - "Improve code readability and maintainability"
+        - "Add additional tests if gaps are identified"
+
+  # Test Quality Standards
+  quality_standards:
+    test_naming:
+      convention: "describe_what_should_happen_when_condition"
+      examples:
+        - "should_return_user_data_when_valid_id_provided"
+        - "should_throw_error_when_invalid_input_received"
+    
+    test_structure:
+      pattern: "Arrange-Act-Assert (AAA)"
+      requirements:
+        - "Clear test setup (Arrange)"
+        - "Single action under test (Act)"
+        - "Explicit assertions (Assert)"
+        - "Proper cleanup if needed"
+    
+    coverage_requirements:
+      minimum_coverage: "80%"
+      critical_path_coverage: "100%"
+      edge_case_coverage: "Required"
+    
+    test_independence:
+      requirements:
+        - "Tests must not depend on execution order"
+        - "Tests must clean up after themselves"
+        - "Tests must not share mutable state"
+        - "Tests must be repeatable and deterministic"
+
+  # Test Environment Setup
+  environment:
+    test_data:
+      approach: "Test fixtures and factories"
+      location: "tests/fixtures/"
+      requirements:
+        - "Isolated test data for each test"
+        - "Realistic but minimal test data sets"
+        - "Easy to maintain and update"
+    
+    mocking_strategy:
+      external_dependencies: "Mock all external services"
+      database: "Use in-memory database or test database"
+      file_system: "Mock file operations or use temp directories"
+    
+    setup_teardown:
+      before_each: "Reset test environment to known state"
+      after_each: "Clean up test artifacts and data"
+      before_all: "Set up test environment and dependencies"
+      after_all: "Clean up shared test resources"
+
+  # Success Criteria
+  success_criteria:
+    tdd_compliance:
+      - "All tests written before implementation code"
+      - "Red-Green-Refactor cycle followed for all functionality"
+      - "No production code without corresponding failing test"
+    
+    coverage_metrics:
+      - "Minimum {coverage_target} overall test coverage"
+      - "100% coverage of critical business logic"
+      - "All acceptance criteria covered by tests"
+    
+    test_quality:
+      - "All tests are readable and maintainable"
+      - "Tests execute quickly (unit tests < 100ms each)"
+      - "Tests are reliable and not flaky"
+      - "Tests provide clear failure messages"
+
+  # Risk Assessment
+  testing_risks:
+    - risk: "Complex integration scenarios difficult to test"
+      mitigation: "Break down into smaller, testable units"
+    - risk: "External dependencies make tests unreliable"
+      mitigation: "Use mocking and test doubles"
+    - risk: "Test suite becomes slow as it grows"
+      mitigation: "Optimize test performance and use test categories"
+
+  # Maintenance Plan
+  maintenance:
+    test_review_frequency: "With each code review"
+    test_update_triggers:
+      - "Requirements changes"
+      - "Bug discoveries"
+      - "Performance issues"
+      - "New edge cases identified"
+    
+    test_cleanup_schedule:
+      - "Remove obsolete tests monthly"
+      - "Refactor test code quarterly"
+      - "Update test documentation as needed"
+
+# Template Usage Instructions:
+# 1. Replace all {placeholder} values with actual story-specific information
+# 2. Customize test_types based on your technology stack
+# 3. Adjust coverage_target based on project requirements
+# 4. Modify frameworks list to match your testing setup
+# 5. Add or remove test categories based on story complexity
+# 6. Ensure test file paths match your project structure
+# 7. Update quality standards to match team conventions
+==================== END: .bmad-core/templates/test-plan-tmpl.yaml ====================
 
 ==================== START: .bmad-core/tasks/generate-ai-frontend-prompt.md ====================
 # Create AI Frontend Prompt Task
